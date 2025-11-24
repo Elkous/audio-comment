@@ -1,0 +1,73 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.card{
+    
+    border: 3px solid #0f3b1f;
+    padding: 10px;
+    border-radius: 15px;
+    max-width: 320px;
+    background-color: #eee;
+    margin: 20px auto;
+    display: flex;
+}
+.card .left{
+    width: 220px;
+    padding: 1px;
+    /* border: 2px solid #0f3b1f; */
+}
+.card .left .top{
+    width: 134px;
+    /* border: 1px solid red; */
+    border-radius: 50px;
+    padding: 5px 8px;
+    font-size: 18px;
+    color: orange;
+    background-color: #0f3b1f;
+    font-family: sans-serif;
+}
+.card .left .top span{
+    
+    color: rgb(255, 255, 255);
+}
+.card .left .top label{
+  
+    color: orange;
+    background-color: #ffffff;
+    padding: 0px 5px ;
+    border-radius: 10px;
+    font-size:18px;
+   
+}
+.c-audio{
+     width: 100%;
+    
+    /* border: 2px solid #0f3b1f; */
+}
+.c-audio audio{
+    width: 90%;
+    margin-top: 20px;
+    border: 2px solid #0f3b1f;
+    border-radius: 50px;
+    height: 50px;
+    
+}
+.card .right{
+    width: 80px;
+    /* border: 2px solid #0f3b1f; */
+    
+}
+.card .right .c-img{
+    border: 2px solid #0f3b1f;
+    overflow: hidden;
+    width: 60px;
+    height: 60px;
+    margin: 5px auto;
+    border-radius: 50%;
+}
+.card .right .c-img img{
+    width: 100%;
+
+}
