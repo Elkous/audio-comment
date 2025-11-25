@@ -79,3 +79,7 @@
     width: 100%;
 
 }
+.card .right .nam p{
+    font-weight: bolder;
+    font-family: sans-serif;
+}
