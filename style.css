@@ -3,20 +3,26 @@
     margin: 0;
     box-sizing: border-box;
 }
+.flx{
+    justify-content: center;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+}
 .card{
     
     border: 3px solid #0f3b1f;
     padding: 10px;
     border-radius: 15px;
-    max-width: 420px;
+    width: 425px;
     background-color: #eee;
-    margin: 20px auto;
     display: flex;
-    justify-content: space-evenly;
+    margin: 10px;
+    justify-content: space-between;
     align-items: center;
 }
 .card .left{
-    width: 220px;
+    width: 90%;
     padding: 1px;
     /* border: 2px solid #0f3b1f; */
 }
@@ -49,7 +55,7 @@
     /* border: 2px solid #0f3b1f; */
 }
 .c-audio audio{
-    width: 90%;
+    width: 100%;
     margin-top: 20px;
     border: 2px solid #0f3b1f;
     border-radius: 50px;
