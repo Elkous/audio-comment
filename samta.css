@@ -1,0 +1,219 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+header{
+    background-color: teal;
+    /* height: 60px; */
+    width: 100%;
+    color: white;
+    /* padding: 10px 15px; */
+}
+header p{
+    text-align: center;
+    padding: 15px 20px;
+}
+header nav{
+    width: 100%;
+    height: 60px;
+    background-color: tan;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 25px;
+}
+header nav ul{
+    list-style-type: none;
+}
+header nav ul li {
+    display: inline;
+    margin: 10px 15px;
+}
+
+
+header nav ul li a{
+    text-decoration: none;
+    color: white;
+    text-transform: capitalize;
+}
+.hero {
+    /* url('2.png') */
+    padding: 20px;
+    background: rgba(39, 22, 22, 0.1) ;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    
+}
+.hero h1{
+    text-align: center;
+    padding: 10px 20px;
+}
+.hero p{
+    text-align: center;
+    /* width: 400px; */
+    padding: 15px 20px;
+    margin: 15px 10px;
+}
+.hero .btn{
+    text-align: center;
+    display: block;
+    margin: auto;
+    padding: 15px 20px;
+    text-decoration: none;
+    border: 2px solid tan;
+    width: 150px;
+    color: tan;
+    transition: .5s ease;
+}
+.hero .btn:hover{
+    background-color: tan;
+    color: white;
+}
+.products{
+    padding: 20px;
+    background-color: tan;
+}
+.products h2{
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+.products .product-list{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.products .product-list .product-item{
+    background-color: rgb(202, 202, 202);
+    padding: 15px 20px;
+    overflow: hidden;
+
+}
+.products .product-list .product-item img{
+    width: 250px;
+    height: 250px;
+}
+/* ------------------------------------------------------------------- */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+ body{
+     background: #eee;
+ }
+header{
+    width: 100%;
+    padding: 20px;
+    background: #145202;
+}
+header nav{
+    color: #fff;
+}
+header nav h2{
+    text-align: center;
+}
+section{
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background: rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+section:before{
+    content:"";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    bottom: -130px;
+    background: #3FC817;
+    left: -130px;
+    border-radius: 50%;
+    z-index: -1;
+}
+section .left{
+    padding: 20px;
+    max-width: 420px;
+}
+section .left h2{
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+section .left h2 span{
+    color: #3FC817;
+    font-weight: 900;
+}
+section .left ul li{
+    margin: 12px;
+}
+section .left a{
+    display: block;
+    width: 150px;
+    background: #145202;
+    padding: 8px 15px;
+    margin: 25px 0;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 900;
+}
+section .right{
+    max-width: 420px;
+    
+    padding: 0 20px 20px 20px;
+    
+}
+section .right .c-img{
+    width: 300px;
+    height: 260px;
+    overflow: hidden;
+    animation: anim 3s ease infinite;
+    
+    
+}
+@keyframes anim{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(40px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+section .right .c-img img{
+    width: 100%;
+    height: 100%;
+}
+section .right .item-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    position: relative;
+}
+section .right .item-div div{
+    width: 40px;
+    height: 40px;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #fff;
+}
+section .right .item-div div:nth-child(1){
+    background: #6C5E2C;
+}
+section .right .item-div div:nth-child(2) {
+    background: #CFAB2E;
+}
+section .right .item-div div:nth-child(3) {
+    background: #004C9A;
+}
