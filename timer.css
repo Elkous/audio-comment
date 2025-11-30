@@ -6,6 +6,8 @@
   background: rgba(0, 0, 0, .05);
   border-radius:14px;
   backdrop-filter:blur(6px);
+  max-width: 900px;
+  margin:10px auto;
 }
 .timer-unit{
   background: #FB5837;
