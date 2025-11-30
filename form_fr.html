@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulaire d'inscription</title>
+
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+}
+
+.form-box {
+  max-width: 900px;
+  margin: 40px auto;
+  border: 2px dashed #66bb6a;
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-bottom: 30px;
+}
+
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:center ;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+button {
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #f75433;
+  color: #fff;
+  width: calc(100% - 15px);
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+}
+</style>
+</head>
+
+<body>
+
+<form class="form-grid" id="myForm">
+  <input id="name" type="text" placeholder="Nom complet *" required>
+  <input id="phone" type="text" placeholder="Téléphone *" required>
+  <input id="email" type="email" placeholder="Email">
+  <input id="city" type="text" placeholder="Ville *" required>
+
+  <button id="submitBtn" type="submit">تسجيل دابا</button>
+</form>
+
+<p id="msg"></p>
+
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx5bBCQY4qgoB7l3SbKPxdkzdivt5lgiOPRK-Y4hXcqhYibyQseznwXOohpGR1PpfI/exec";
+
+document.getElementById("myForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const name  = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const city  = document.getElementById("city").value.trim();
+
+    const msg = document.getElementById("msg");
+
+    if (!name || !phone || !city) {
+        msg.style.color = "red";
+        msg.textContent = "عفاك عَمّر جميع الخانات المطلوبة.";
+        return;
+    }
+
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.textContent = "جاري الإرسال...";
+
+    // إرسال البيانات بطريقة FormData
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("phone", phone);
+    formData.append("email", email);
+    formData.append("city", city);
+
+    try {
+        const response = await fetch(WEB_APP_URL, {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+            msg.style.color = "green";
+            msg.textContent = "تم التسجيل بنجاح!";
+            document.getElementById("myForm").reset();
+        } else {
+            msg.style.color = "red";
+            msg.textContent = "وقع مشكل أثناء التسجيل.";
+        }
+
+    } catch (error) {
+        msg.style.color = "red";
+        msg.textContent = "خطأ في الإرسال. جرب مرة أخرى.";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "تسجيل دابا";
+});
+</script>
+
+</body>
+</html>
