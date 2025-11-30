@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ar" dir="">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>تيمر تنازلي — jj hh mm ss</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- TIMER SECTION START -->
+
+<div id="countdown">
+  <div class="timer-box">
+    <div class="timer-unit">
+      <div class="timer-num" id="t-days">00</div>
+      <div class="timer-label">jj</div>
+    </div>
+    <div class="timer-unit">
+      <div class="timer-num" id="t-hours">00</div>
+      <div class="timer-label">hh</div>
+    </div>
+    <div class="timer-unit">
+      <div class="timer-num" id="t-mins">00</div>
+      <div class="timer-label">mm</div>
+    </div>
+    <div class="timer-unit">
+      <div class="timer-num" id="t-secs">00</div>
+      <div class="timer-label">ss</div>
+    </div>
+  </div>
+
+  <div class="timer-drop-wrap">
+    <div id="fall" class="timer-fall">🔔</div>
+    <div id="final" class="timer-final">✅</div>
+  </div>
+</div>
+
+<script>
+/* --------------------
+    TIMER CONFIG
+---------------------*/
+const FALL_ICON = "🔔";   // الأيقونة لي كتطيح
+const FINAL_ICON = "✅";  // الأيقونة عند النهاية
+const MAX_DROP = 70;      // المسافة لي غادي يطيحها بالبيكسل
+
+/* --------------------
+    TARGET TIME
+---------------------*/
+/* ⚠️ بدّل هاد التاريخ لاحقاً حسب الحاجة */
+let targetDate = new Date();
+targetDate.setMinutes(targetDate.getMinutes() + 8664); // دابا + دقيقة
+
+/* --------------------
+    ELEMENTS
+---------------------*/
+const dEl = document.getElementById("t-days");
+const hEl = document.getElementById("t-hours");
+const mEl = document.getElementById("t-mins");
+const sEl = document.getElementById("t-secs");
+const fallEl = document.getElementById("fall");
+const finalEl = document.getElementById("final");
+
+/* --------------------
+    COUNTDOWN
+---------------------*/
+let totalInit = null;
+function pad(n){ return String(n).padStart(2, "0"); }
+
+function start(){
+  const now = new Date();
+  totalInit = Math.floor((targetDate - now) / 1000);
+  update();
+  setInterval(update, 1000);
+}
+
+function update(){
+  const now = new Date();
+  let diff = Math.max(0, Math.floor((targetDate - now) / 1000));
+
+  const days = Math.floor(diff / 86400);
+  const hours = Math.floor((diff % 86400) / 3600);
+  const mins = Math.floor((diff % 3600) / 60);
+  const secs = diff % 60;
+
+  dEl.textContent = days;
+  hEl.textContent = pad(hours);
+  mEl.textContent = pad(mins);
+  sEl.textContent = pad(secs);
+
+  // سقوط الأيقونة
+  const passed = totalInit - diff;
+  const progress = Math.min(1, passed / totalInit);
+  const drop = progress * MAX_DROP;
+  fallEl.style.transform = `translate(-50%, ${drop}px)`;
+
+  if(diff <= 0){
+    fallEl.style.display = "none";
+    finalEl.style.display = "block";
+  }
+}
+
+start();
+</script>
+<!-- TIMER SECTION END -->
+
+
+<script>
+/*
+  عداد تنازلي مع أيقونة "تهبط" تدريجياً حتى توصل للصفر.
+  تعديل:
+   - ضع التاريخ الهدف في المتغيّر targetDate أو استعمل حقل التاريخ في الصفحة.
+   - FALL_ICON لتغيير الأيقونة اللي تهبط.
+*/
+
+const FALL_ICON = "🔔";      // أيقونة صغيرة تهبط (emoji أو HTML/SVG)
+const FINAL_ICON = "✅";     // أيقونة عند الوصول للصفر
+const FALL_MAX_PX = 170;     // أقصى مسافة هبوط بالبيكسل داخل الصندوق
+
+// DOM
+const daysEl = document.getElementById('days');
+const hoursEl = document.getElementById('hours');
+const minutesEl = document.getElementById('minutes');
+const secondsEl = document.getElementById('seconds');
+const fallingEl = document.getElementById('falling');
+const finalEl = document.getElementById('final');
+const targetInput = document.getElementById('target-input');
+const setBtn = document.getElementById('set-btn');
+const resetBtn = document.getElementById('reset-btn');
+
+// Default target: 1 minute from now (if user doesn't set)
+let targetDate = null;
+let intervalId = null;
+let initialTotalSeconds = null; // used to compute drop progress
+
+// util: format with zero padding
+function pad(n){ return String(n).padStart(2,'0'); }
+
+function setTargetFromInput(){
+  const val = targetInput.value;
+  if(!val){
+    // empty -> 1 minute from now
+    const d = new Date();
+    d.setMinutes(d.getMinutes() + 1);
+    targetDate = d;
+  } else {
+    // datetime-local gives local time string like "2025-11-30T12:34"
+    targetDate = new Date(val);
+  }
+  startCountdown();
+}
+
+function startCountdown(){
+  // clear old
+  if(intervalId) clearInterval(intervalId);
+
+  const now = new Date();
+  if(!targetDate || targetDate <= now){
+    // if target is past or null, set 1 minute ahead
+    const d = new Date();
+    d.setMinutes(d.getMinutes() + 1);
+    targetDate = d;
+  }
+
+  // compute initialTotalSeconds
+  initialTotalSeconds = Math.max(1, Math.round((targetDate - now)/1000));
+
+  // reset visuals
+  fallingEl.textContent = FALL_ICON;
+  finalEl.style.display = 'none';
+  fallingEl.style.display = 'block';
+  fallingEl.style.transform = 'translateY(0)';
+
+  // one immediate update then every second
+  updateTick();
+  intervalId = setInterval(updateTick, 1000);
+}
+
+function updateTick(){
+  const now = new Date();
+  let diffMs = targetDate - now;
+  if(diffMs < 0) diffMs = 0;
+  const totalSec = Math.floor(diffMs / 1000);
+
+  // breakdown
+  const days = Math.floor(totalSec / 86400);
+  const hours = Math.floor((totalSec % 86400) / 3600);
+  const minutes = Math.floor((totalSec % 3600) / 60);
+  const seconds = totalSec % 60;
+
+  // update DOM (use labels jj hh mm ss)
+  daysEl.textContent = String(days); // days may be >2 digits
+  hoursEl.textContent = pad(hours);
+  minutesEl.textContent = pad(minutes);
+  secondsEl.textContent = pad(seconds);
+
+  // compute drop progress (from 0 -> FALL_MAX_PX)
+  const elapsed = Math.max(0, initialTotalSeconds - totalSec);
+  const progress = Math.min(1, elapsed / initialTotalSeconds);
+  const dropPx = Math.round(progress * FALL_MAX_PX);
+
+  // apply transform
+  fallingEl.style.transform = `translateY(${dropPx}px)`;
+
+  // final condition
+  if(totalSec <= 0){
+    // stop interval
+    if(intervalId){ clearInterval(intervalId); intervalId = null; }
+
+    // show final icon and hide falling one
+    fallingEl.style.display = 'none';
+    finalEl.textContent = FINAL_ICON;
+    finalEl.style.display = 'block';
+  }
+}
+
+// buttons
+setBtn.addEventListener('click', (e)=>{
+  setTargetFromInput();
+});
+resetBtn.addEventListener('click', (e)=>{
+  if(intervalId){ clearInterval(intervalId); intervalId = null; }
+  // reset to default 1 minute ahead
+  const d = new Date();
+  d.setMinutes(d.getMinutes() + 1);
+  targetDate = d;
+  targetInput.value = ""; // clear input
+  startCountdown();
+});
+
+// initialize: set default target 1 minute ahead and start
+(function init(){
+  const d = new Date();
+  d.setMinutes(d.getMinutes() + 1);
+  targetDate = d;
+  // set input default value formatted as yyyy-mm-ddThh:mm
+  const tzOffset = d.getTimezoneOffset() * 60000;
+  const localISOTime = (new Date(d - tzOffset)).toISOString().slice(0,16);
+  targetInput.value = localISOTime;
+  startCountdown();
+})();
+</script>
+</body>
+</html>
